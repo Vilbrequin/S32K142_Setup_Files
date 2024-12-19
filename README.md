@@ -26,3 +26,4 @@ pegdbserver_console : `pegdbserver_console -device=NXP_S32K1xx_S32K142F256M15 -s
 - `load`
 - `monitor reset halt`
 - `continue`
+- `info registers r4`
