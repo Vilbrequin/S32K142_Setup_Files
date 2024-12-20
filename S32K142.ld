@@ -28,6 +28,7 @@ SECTIONS
     {
         . = ALIGN(4);
         KEEP(*(.isr_vector))
+        . = ALIGN(4);
     } > PROGRAM_FLASH
     
     .text : 
@@ -53,7 +54,7 @@ SECTIONS
 
     } > PROGRAM_FLASH
     
-    _flash_sdata = .;
+    _flash_sdata = LOADADDR(.data);
 
     .data : 
     {
@@ -96,7 +97,7 @@ SECTIONS
 
     _stack_top = ORIGIN(SRAM_U) + LENGTH(SRAM_U);
 
-    ._stack :
+    .stack :
     {
         . = ALIGN(8);
         _sstack = .;

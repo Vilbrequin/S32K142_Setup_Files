@@ -7,7 +7,7 @@
 
 ### 2. Compile the startup code startup_S32K142.c file
 
-`arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -g -c startup_S32K142.c -o startup_S32K142.c`
+`arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -g -c startup_S32K142.c -o startup_S32K142.o`
 
 ### 3. Link
 

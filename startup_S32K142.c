@@ -9,6 +9,7 @@
 typedef unsigned int uint32_t;
 
 void Reset_Handler(void);
+void Default_Handler(void);
 void NMI_Handler(void)                      __attribute__ ((weak, alias("Default_Handler")));
 void HardFault_Handler(void)                __attribute__ ((weak, alias("Default_Handler")));
 void MemManage_Handler(void)                __attribute__ ((weak, alias("Default_Handler")));                           
@@ -308,22 +309,25 @@ const uint32_t VectorTable[] __attribute__ ((section (".isr_vector"))) = {
 
 void Reset_Handler(void){
 
-    uint32_t _data_size = _edata - _sdata;
-    uint32_t* Src = (uint32_t*)&_sdata;
-    uint32_t* Dst;
+    uint32_t _data_size = &_edata - &_sdata;
+    uint32_t* Src = (uint32_t*)&_flash_sdata;
+    uint32_t* Dst = (uint32_t*)&_sdata;
     
-    uint32_t _bss_size = _ebss - _sbss;
+    uint32_t _bss_size = &_ebss - &_sbss;
     uint32_t* Bss_Dest = (uint32_t*)&_sbss;
 
     // Copy data from PROGRAM_FLASH to SRAM_U
-    for(uint32_t i = 0; i < _data_size; i++){
+    for(uint32_t i = 0; i < _data_size; i += 4){
         *Dst++ = *Src++;
     }
     
     // Initialize .bss section with zero (0)
-    for(uint32_t i = 0; i < _bss_size; i++){
-        *Bss_Dest++ = 0;
+    if(_bss_size != 0){
+        for(uint32_t i = 0; i < _bss_size; i += 4){
+            *Bss_Dest++ = 0;
+        }
     }
+    
     // Call main()
     main();
 }
